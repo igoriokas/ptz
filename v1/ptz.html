@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PTZ</title>
+</head>
+<body>
+    <div id="app">
+        <p  style="text-align: right; padding: 10px;">Keyboard PTZ</p>
+        <p id="key" style="text-align: right; padding: 10px;"></p>
+        <p id="fun" style="text-align: right; padding: 10px;"></p>
+    </div>
+
+    <script>
+        const base = 'http://192.168.0.101/cgi-bin/rpcCommon.cgi?fun='
+
+        function makeGetRequest(apiUrl) {
+            console.log("GET: " + apiUrl)
+
+            // Use the fetch API to make a GET request
+            fetch(apiUrl, { mode: 'no-cors' })
+                .then(response => response.text())
+                .then(data => {
+                    // Handle the response data
+                    console.log(data);
+                })
+                .catch(error => {
+                    // Handle errors
+                    // console.error('Error:', error);
+                });
+        }
+
+        const pan_speed = 15;
+        const tilt_speed = 30;
+        const diag_speed = 15;
+
+        var fun = null;
+
+        var stringMap = {
+            "ArrowLeft": "moveLeft&par="+pan_speed,
+            "ArrowRight": "moveRight&par="+pan_speed,
+            "ArrowUp": "moveUp&par="+tilt_speed,
+            "ArrowDown": "moveDown&par="+tilt_speed,
+
+            "7": "moveLeftUp&par="+diag_speed,
+            "8": "moveUp&par="+pan_speed,
+            "9": "moveRightUp&par="+diag_speed,
+            "4": "moveLeft&par="+pan_speed,
+            "6": "moveRight&par="+pan_speed,
+            "1": "moveLeftDown&par="+diag_speed,
+            "2": "moveDown&par="+tilt_speed,
+            "3": "moveRightDown&par="+diag_speed,
+
+            "-": "zoomWide&par=NULL",
+            "+": "zoomTele&par=NULL",
+            "=": "zoomTele&par=NULL",
+            "PageUp": "zoomWide&par=NULL",
+            "PageDown": "zoomTele&par=NULL",
+        };
+
+        function keydown(event) {
+            document.removeEventListener('keydown', keydown);
+            const key = event.key;
+            document.getElementById('key').textContent = `${key}`;
+
+            fun = stringMap[key]
+            document.getElementById('fun').textContent = `${fun}`;
+
+            console.log(fun)
+            if (fun == null) {
+                console.log('undefined key')
+            } else {
+                var url = base + fun;
+                makeGetRequest(url);
+                document.addEventListener('keyup', keyup);
+            }
+        }
+
+        function keyup(event) {
+            const key = event.key;
+            document.getElementById('key').textContent = "";
+            document.getElementById('fun').textContent = "";
+
+            if (fun != null) {
+                makeGetRequest(base + "moveStop&par=NULL");
+                makeGetRequest(base + "zoomStop&par=NULL");
+            }
+
+            document.addEventListener('keydown', keydown);
+        }
+
+        document.addEventListener('keydown', keydown);
+    </script>
+</body>
+</html>
