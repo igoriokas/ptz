@@ -3,7 +3,7 @@
 -- local mp = require("mp")
 -- local utils = require("mp.utils")
 
-local base = "http://192.168.0.101/cgi-bin/rpcCommon.cgi?fun="
+local base = "http://10.30.30.12/cgi-bin/rpcCommon.cgi?fun="
 
 local pan_speed = 10;
 local tilt_speed = 20;

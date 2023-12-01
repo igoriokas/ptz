@@ -1,1 +1,0 @@
-mpvnet --osd-font-size=24 --no-osc --osd-duration=500 --input-conf=input.conf --script=scripts/my.lua rtsp://192.168.0.101:554/ch0.liv
