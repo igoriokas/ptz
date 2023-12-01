@@ -37,7 +37,6 @@ class VideoApp:
 
 # Create a window and pass it to the VideoApp class
 root = tk.Tk()
-rtsp_url = "rtsp://rtspstream:539a545d904d92acfa6869e549fa763e@zephyr.rtsp.stream/movie"
-rtsp_url = "rtsp://192.168.0.101:554/ch0.liv"
-rtsp_url = "rtsp://192.168.0.100/ProfileToken_1_1"
+# rtsp_url = "rtsp://10.30.30.12:554/ch0.liv"
+rtsp_url = "rtsp://10.30.30.11/ProfileToken_1_1"
 app = VideoApp(root, "Video App", video_source=rtsp_url)
