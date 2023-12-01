@@ -1,7 +1,8 @@
 import cv2
 
 def play_rtsp_stream(rtsp_url):
-    cap = cv2.VideoCapture(rtsp_url, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(rtsp_url, cv2.CAP_FFMPEG)
+    cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
     while True:
         ret, frame = cap.read()
